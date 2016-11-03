@@ -21,14 +21,14 @@ ENHANCEMENTS, OR MODIFICATIONS.
 ******************************************************************************/
 
 /******************************************************************************
-* Name: inner product enable module
-* Description: enable module for inner product actor, this actor has three
-*              modes (MODE_ONE, MODE_TWO, MODE_THREE)
+* Name: stream_comp enable module
+* Description: enable module for stream_comp actor, this actor has three
+*              modes (SETUP_COMP, COMP, OUTPUT)
 * Sub modules: None
 * Input ports: pop_in_fifo1 - population of input fifo1
 *              pop_in_fifo2 - population of input fifo2 
 *              free_space_fifo1 - free space of output fifo1
-*              mode - inner product actor mode for checking enable condition
+*              mode - stream_comp actor mode for checking enable condition
 * Output port: enable (active high)
 *
 * Refer to the corresponding invoke module (invoke_top_module_1.v) for 
@@ -37,34 +37,35 @@ ENHANCEMENTS, OR MODIFICATIONS.
 ******************************************************************************/
 
 `timescale 1ns / 1ps
-module innner_product_enable
+module stream_comp_enable
         #(parameter size = 3, buffer_size = 5, buffer_size_out = 1)(
         input rst,
-        input [log2(buffer_size) - 1 : 0] pop_in_fifo1,
-        input [log2(buffer_size) - 1 : 0] pop_in_fifo2,
-        input [log2(buffer_size_out) - 1 : 0] free_space_fifo1,
+        input [log2(buffer_size) - 1 : 0] pop_data,
+		input [log2(buffer_size) - 1 : 0] pop_length
+        input [log2(buffer_size) - 1 : 0] pop_command,
+        input [log2(buffer_size_out) - 1 : 0] free_space,
         input [1 : 0] mode,
         output reg enable);
   
-    localparam MODE_ONE = 2'b00, MODE_TWO = 2'b01, MODE_THREE = 2'b10;
+    localparam SETUP_COMP = 2'b00, COMP = 2'b01, OUTPUT = 2'b10;
  
-    always @(mode, pop_in_fifo1, pop_in_fifo2, free_space_fifo1)
+    always @(mode, pop_data, pop_length, pop_command, free_space)
     begin 
         case (mode)
-        MODE_ONE:
+        SETUP_COMP:
         begin
-            if (pop_in_fifo1 >= size && pop_in_fifo2 >= size)
+            if (pop_data >= size && pop_length >= size && pop_command >= size)
                 enable <= 1;
             else
                 enable <= 0;
         end
-        MODE_TWO:
+        COMP:
         begin
             enable <= 1;
         end    
-        MODE_THREE:
+        OUTPUT:
         begin 
-            if (free_space_fifo1 >= 1)
+            if (free_space >= 1)
                 enable <= 1;
         end
         default:
