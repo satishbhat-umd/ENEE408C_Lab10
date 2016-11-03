@@ -21,39 +21,41 @@ ENHANCEMENTS, OR MODIFICATIONS.
 ******************************************************************************/
 
 /******************************************************************************
-* Name            : Inner product invoke firing state FSM level 2
+* Name            : Window computation invoke firing state FSM level 2
 * Description     : A level 2 FSM. This FSM helps to implement the firing state 
-*                   of the invoke module for the inner product actor 
+*                   of the invoke module for the window computation actor 
 *
 * FSM description : STATE_START - nested FSM start state
 *
 *                   STATE_MODE_ONE_START - nested FSM for mode 1 start state
 *                   
-*                   STATE_MODE_ONE_WAIT - execute CFDF mode 1 for the inner 
-*                   product actor (read input vectors in to local actor 
+*                   STATE_MODE_ONE_WAIT - execute CFDF mode 1 for the window 
+*                   compuation actor (read input vectors in to local actor 
 *                   memory). This state has two sub-states associated with 
 *                   executing a nested FSM.
 *                                    
 *                   STATE_MODE_TWO_START - nested FSM for mode 2 start state
 *
-*                   STATE_MODE_TWO_WAIT - execute CFDF mode 2 for the inner 
-*                   product actor (computer the inner product from local 
+*                   STATE_MODE_TWO_WAIT - execute CFDF mode 2 for the window 
+*                   computation actor (the window compuation from local 
 *                   memory). This state has two sub-states associated with 
 *                   executing a nested FSM.
 *
-*                   STATE_MODE_THREE - execute CFDF mode 3 for the inner
-*                   product actor (write the inner product result to the
-*                   the output FIFO.
+*                   STATE_MODE_THREE - execute CFDF mode 3 for the window
+*                   computation actor (write the window computation result to
+*                   the output FIFO.)
 *
 *                   STATE_END - nested FSM end state.
 *                              
-* Input ports     : data_in_fifo1 - data from input fifo1
-*                   data_in_fifo2 - data from input fifo2
+* Input ports     : data_in_fifo - data from input fifo
+*                   length_in_fifo - data from length fifo
+*                   command_in_fifo - data from the command fifo
 *                   start_in - nested FSM start signal from parent FSM
 *                   next_mode_in - selected actor mode
 *
-* Output ports    : rd_in_fifo1 - read enable signal for input fifo1
-*                   rd_in_fifo2 - read enable signal for input fifo2
+* Output ports    : rd_in_data_fifo - read enable signal for data fifo
+*                   rd_in_length_fifo - read enable signal for length fifo
+*                   rd_in_command_fifo - read enable signal for command fifo
 *                   next_mode_out - CFDF next mode output for actor firing
 *                   done_out - nested FSM end signal to parent FSM
 *                   wr_out_fifo1 - output fifo write enable signal
@@ -61,7 +63,7 @@ ENHANCEMENTS, OR MODIFICATIONS.
 *
 *  Parameters     : A. size -- the number of tokens (integers) in each
 *                   input vector. So, if size = N, then this actor
-*                   performs an N x N inner product.
+*                   performs the given command on the size N array of data.
 *                   B. width -- the bit width for the integer data type
 *                   used in the inner product operations
 
@@ -71,12 +73,14 @@ ENHANCEMENTS, OR MODIFICATIONS.
 module firing_state_FSM2
         #(parameter size = 3, width = 10)(
         input clk,rst,
-        input [width - 1 : 0] data_in_fifo1,
-        input [width - 1 : 0] data_in_fifo2, 
+        input [width - 1 : 0] data_in_fifo,
+        input [width - 1 : 0] length_in_fifo,
+        input [1 : 0] command_in_fifo, 
         input start_in,
         input [1 : 0] next_mode_in,
-        output rd_in_fifo1,
-        output rd_in_fifo2,
+        output rd_in_data_fifo,
+        output rd_in_length_fifo,
+        output rd_in_command_fifo,
         output reg [1 : 0] next_mode_out,
         output reg done_out,
         output reg wr_out_fifo1,
@@ -107,8 +111,8 @@ module firing_state_FSM2
 
     /* Instantiation of nested FSM for core compuation CFDF mode 1. */	    
     load_loc_mem_FSM_3 #(.size(size), .width(width))
-            loc_mem(clk, rst, start_in_child_mode1, data_in_fifo1, 
-            data_in_fifo2, rd_in_fifo1, rd_in_fifo2, done_out_child_mode1, 
+            loc_mem(clk, rst, start_in_child_mode1, data_in_fifo, 
+            length_in_fifo, command_in_fifo, rd_in_data_fifo, rd_in_length_fifo,            read_in_command_fifo, done_out_child_mode1, 
             wr_en_ram, wr_addr, data_out_one, data_out_two);
 
     /* Instantiation of nested FSM for core compuation CFDF mode 2. */
