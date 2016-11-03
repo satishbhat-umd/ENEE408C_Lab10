@@ -112,7 +112,8 @@ module firing_state_FSM2
     /* Instantiation of nested FSM for core compuation CFDF mode 1. */	    
     load_loc_mem_FSM_3 #(.size(size), .width(width))
             loc_mem(clk, rst, start_in_child_mode1, data_in_fifo, 
-            length_in_fifo, command_in_fifo, rd_in_data_fifo, rd_in_length_fifo,            read_in_command_fifo, done_out_child_mode1, 
+            length_in_fifo, command_in_fifo, rd_in_data_fifo, rd_in_length_fifo,
+            read_in_command_fifo, done_out_child_mode1, 
             wr_en_ram, wr_addr, data_out_one, data_out_two);
 
     /* Instantiation of nested FSM for core compuation CFDF mode 2. */
