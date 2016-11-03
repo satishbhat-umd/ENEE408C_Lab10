@@ -1,0 +1,146 @@
+m255
+K4
+z2
+13
+cModel Technology
+Z0 d/homes/sbhat12/enee408c_user/labs/lab10/verilog/lwdfv-inner-product/src
+!s112 0.1
+!i10d 8192
+!i10e 25
+!i10f 100
+vaccumulator_mode_FSM_3
+Z1 V`JN@9S9cnhjKRR_L]QIcM3
+r1
+31
+If0[0Qk_c`LaI=ADk16m>o1
+Z2 d/homes/sbhat12/enee408c_user/labs/lab10/verilog/lwdfv-inner-product/src
+Z3 w1478114691
+8accumulator_mode_FSM_3.v
+Faccumulator_mode_FSM_3.v
+L0 37
+Z4 OL;L;10.2c;57
+Z5 o-work ../bin/inner-prod -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+naccumulator_mode_@f@s@m_3
+!s85 0
+!i10b 1
+!s100 JNUSYohkgUjDRR4Yki`kA3
+!s108 1478197578.380351
+!s107 accumulator_mode_FSM_3.v|
+!s90 -work|../bin/inner-prod|accumulator_mode_FSM_3.v|
+!i111 0
+vfifo
+R1
+r1
+31
+IGFeB33gS^0]?5oJSk]>^c3
+R2
+R3
+8fifo.v
+Ffifo.v
+L0 41
+R4
+R5
+!s85 0
+!i10b 1
+!s100 7NmP9kb[9G0QV9kZ4BR972
+!s108 1478197577.162291
+!s107 fifo.v|
+!s90 -work|../bin/inner-prod|fifo.v|
+!i111 0
+vfiring_state_FSM2
+R1
+r1
+31
+I;_OGz334eN^`F49SiWi[z3
+R2
+R3
+8firing_state_FSM_2.v
+Ffiring_state_FSM_2.v
+L0 71
+R4
+R5
+nfiring_state_@f@s@m2
+!s85 0
+!i10b 1
+!s100 :amclFRBdal`T><HzmHRG3
+!s108 1478197579.051233
+!s107 firing_state_FSM_2.v|
+!s90 -work|../bin/inner-prod|firing_state_FSM_2.v|
+!i111 0
+vinner_product_invoke_top_module_1
+R1
+r1
+31
+I@a]?Qo8QSd=THJ9ef?WA>0
+R2
+Z6 w1478114692
+8invoke_top_module_1.v
+Finvoke_top_module_1.v
+L0 64
+R4
+R5
+!s85 0
+!i10b 1
+!s100 N:[oJ;BObIKie]3;G9J@13
+!s108 1478197579.399523
+!s107 invoke_top_module_1.v|
+!s90 -work|../bin/inner-prod|invoke_top_module_1.v|
+!i111 0
+vinnner_product_enable
+R1
+r1
+!s85 0
+31
+I94^`PLa?bj;YUG:JQl[mz0
+R2
+R6
+8inner_product_enable.v
+Finner_product_enable.v
+L0 40
+R4
+R5
+!i10b 1
+!s100 n@_hhchco8kU3OR6^Jj1<3
+!s108 1478197579.759191
+!s107 inner_product_enable.v|
+!s90 -work|../bin/inner-prod|inner_product_enable.v|
+!i111 0
+vload_loc_mem_FSM_3
+R1
+r1
+31
+ILK7=dk`m2P]P]HlPfFKT51
+R2
+R6
+8load_loc_mem_FSM_3.v
+Fload_loc_mem_FSM_3.v
+L0 36
+R4
+R5
+nload_loc_mem_@f@s@m_3
+!s85 0
+!i10b 1
+!s100 GVPZ@MDc1oP^`PY4Fh<aT1
+!s108 1478197577.930564
+!s107 load_loc_mem_FSM_3.v|
+!s90 -work|../bin/inner-prod|load_loc_mem_FSM_3.v|
+!i111 0
+vsingle_port_ram
+R1
+r1
+31
+IU:DiKjPc@kdR_:NEa2_kJ3
+R2
+R6
+8single_port_ram.v
+Fsingle_port_ram.v
+L0 54
+R4
+R5
+!s85 0
+!i10b 1
+!s100 o[NV`a[7B5hjI3iPAi2AZ1
+!s108 1478197577.588440
+!s107 single_port_ram.v|
+!s90 -work|../bin/inner-prod|single_port_ram.v|
+!i111 0

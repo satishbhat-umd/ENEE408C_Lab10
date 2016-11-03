@@ -1,0 +1,5 @@
+# vsim -L ../../bin/inner-prod -do ./simulate-do -c -lic_plus -quiet -novopt tb_inner_product_FSM 
+# Refreshing /afs/glue.umd.edu/home/glue/s/b/sbhat12/home/enee408c_user/labs/lab10/verilog/lwdfv-inner-product/test/test01/work.tb_inner_product_FSM
+# do ./simulate-do 
+# time =                  117, Result =   55
+         117, Result =   55
