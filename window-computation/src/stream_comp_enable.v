@@ -25,9 +25,10 @@ ENHANCEMENTS, OR MODIFICATIONS.
 * Description: enable module for stream_comp actor, this actor has three
 *              modes (SETUP_COMP, COMP, OUTPUT)
 * Sub modules: None
-* Input ports: pop_in_fifo1 - population of input fifo1
-*              pop_in_fifo2 - population of input fifo2 
-*              free_space_fifo1 - free space of output fifo1
+* Input ports: pop_data - population of input fifo1
+*              pop_length - population of input fifo2 
+			   pop_command - population of input fifo3
+*              free_space - free space of output fifo1
 *              mode - stream_comp actor mode for checking enable condition
 * Output port: enable (active high)
 *
@@ -41,7 +42,7 @@ module stream_comp_enable
         #(parameter size = 3, buffer_size = 5, buffer_size_out = 1)(
         input rst,
         input [log2(buffer_size) - 1 : 0] pop_data,
-		input [log2(buffer_size) - 1 : 0] pop_length
+		input [log2(buffer_size) - 1 : 0] pop_length,
         input [log2(buffer_size) - 1 : 0] pop_command,
         input [log2(buffer_size_out) - 1 : 0] free_space,
         input [1 : 0] mode,
