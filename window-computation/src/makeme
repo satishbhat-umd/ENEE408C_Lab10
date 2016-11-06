@@ -25,21 +25,21 @@
 
 # Build one module
 function makeone {
-    if ! [ -d ../bin/inner-prod ]; then
-        mkdir ../bin/inner-prod
+    if ! [ -d ../bin/stream-comp ]; then
+        mkdir ../bin/stream-comp
     fi
-    vlib ../bin/inner-prod
-    vmap work ../bin/inner-prod
-    vlog -work ../bin/inner-prod $1.v
+    vlib ../bin/stream-comp
+    vmap work ../bin/stream-comp
+    vlog -work ../bin/stream-comp $1.v
 }
 
 # Build modules
 makeone fifo
 makeone single_port_ram
 makeone load_loc_mem_FSM_3
-makeone accumulator_mode_FSM_3
-makeone firing_state_FSM_2
-makeone invoke_top_module_1
-makeone inner_product_enable
+makeone stream_comp_comp_mode_FSM_3
+makeone stream_comp_firing_state_FSM_2
+makeone stream_comp_invoke_top_module_1
+makeone stream_comp_enable
 
 
