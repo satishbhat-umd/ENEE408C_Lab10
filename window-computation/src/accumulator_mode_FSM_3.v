@@ -38,7 +38,9 @@ module accumulator_mode_FSM_3
         #(parameter size = 3, width = 10)(  
         input clk, rst,
         input start_in,
-        input [width - 1 : 0] ram_out1, ram_out2,
+        input [width - 1 : 0] ram_out1,
+		input [width - 1 : 0] length_in [0 : 2],
+		input [1 : 0] command_in [0 : 2],
         output reg done_out,
         output reg rd_en,
         output [log2(size) - 1 : 0] rd_addr,
@@ -49,7 +51,9 @@ module accumulator_mode_FSM_3
     reg [1 : 0] state, next_state;
     reg [width - 1 : 0] next_acc;
     reg [log2(size) - 1 : 0] counter, next_counter;
-  
+  	reg [width - 1 : 0] length, next_length;
+	reg [1 : 0] command, next_command;
+
     always @(posedge clk or negedge rst)
     begin
         if (!rst)
@@ -57,12 +61,16 @@ module accumulator_mode_FSM_3
             state <= START;
             acc <= 0;
 	        counter <= 0;
-        end
+        	length <= length_in[0]
+			command <= command_in[0];
+		end
         else
         begin 
             state <= next_state;
             acc <= next_acc;
 	        counter <= next_counter;
+			length <= next_length;
+			command <= next_command;
         end
     end
   
@@ -96,20 +104,23 @@ module accumulator_mode_FSM_3
         endcase
     end
 	
-	always @(state, start_in, ram_out1, ram_out2, counter,acc)
+	always @(state, start_in, ram_out1, counter, acc)
         case (state)
 	        START:
 				begin
 				done_out <= 0;
 				next_acc <= acc;
 				next_counter <= 0;
+				next_length <= 0;
+				next_command <= 0;
 				rd_en <= 0;    
 				end
             STATE0:
 				begin 		
 				done_out <= 0;
-				next_acc <= ram_out1 * ram_out2;
+				next_acc <= ram_out1;
 				next_counter <= counter + 1;
+				next_length <= 0; 
 				rd_en <= 1;  
 				end
             STATE1:
