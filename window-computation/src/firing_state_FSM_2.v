@@ -74,23 +74,21 @@ module firing_state_FSM2
         #(parameter size = 3, width = 10)(
         input clk,rst,
         input [width - 1 : 0] data_in_fifo,
-        input [width - 1 : 0] length_in_fifo,
-        input [1 : 0] command_in_fifo, 
+        input [width - 1 : 0] length [0 : 2],
+        input [1 : 0] command [0 : 2], 
         input start_in,
         input [1 : 0] next_mode_in,
         output rd_in_data_fifo,
-        output rd_in_length_fifo,
-        output rd_in_command_fifo,
         output reg [1 : 0] next_mode_out,
         output reg done_out,
         output reg wr_out_fifo1,
         output reg [width - 1 : 0] data_out 
         );
 
-    localparam MODE_ONE = 2'b00, MODE_TWO = 2'b01, MODE_THREE = 2'b10;
-    localparam STATE_START = 3'b000, STATE_MODE_ONE_START = 3'b001, 
-	        STATE_MODE_ONE_WAIT = 3'b010, STATE_MODE_TWO_START = 3'b011,
-	        STATE_MODE_TWO_WAIT = 3'b100, STATE_MODE_THREE = 3'b101,
+    localparam SETUP_COMP = 2'b00, COMP = 2'b01, OUTPUT = 2'b10;
+    localparam STATE_START = 3'b000, STATE_SETUP_COMP_START = 3'b001, 
+	        STATE_SETUP_COMP_WAIT = 3'b010, STATE_COMP_START = 3'b011,
+	        STATE_COMP_WAIT = 3'b100, STATE_OUTPUT = 3'b101,
             STATE_END = 3'b110;
 
     reg [2 : 0] state_module, next_state_module;
@@ -105,20 +103,17 @@ module firing_state_FSM2
     single_port_ram #(.size(size), .width(width))
             RAM1(data_out_one, wr_addr, rd_addr, wr_en_ram, rd_en, clk, 
             ram_out1);
-    single_port_ram #(.size(size), .width(width))
-            RAM2(data_out_two, wr_addr, rd_addr, wr_en_ram, rd_en, clk, 
-            ram_out2);
 
     /* Instantiation of nested FSM for core compuation CFDF mode 1. */	    
     load_loc_mem_FSM_3 #(.size(size), .width(width))
             loc_mem(clk, rst, start_in_child_mode1, data_in_fifo, 
-            length_in_fifo, command_in_fifo, rd_in_data_fifo, rd_in_length_fifo,
-            read_in_command_fifo, done_out_child_mode1, 
-            wr_en_ram, wr_addr, data_out_one, data_out_two);
+            rd_in_data_fifo,
+            done_out_child_mode1, 
+            wr_en_ram, wr_addr, data_out_one);
 
     /* Instantiation of nested FSM for core compuation CFDF mode 2. */
     accumulator_mode_FSM_3 #(.size(size), .width(width)) accumulator(clk, rst, 
-            start_in_child_mode2, ram_out1, ram_out2, done_out_child_mode2, 
+            start_in_child_mode2, ram_out1, done_out_child_mode2, 
             rd_en, rd_addr, acc_out);
        
     always @(posedge clk or negedge rst)
@@ -141,12 +136,12 @@ module firing_state_FSM2
         STATE_START:
         begin
             if (start_in)
-                if(next_mode_in == MODE_ONE)
-                    next_state_module <= STATE_MODE_ONE_START;
-                else if (next_mode_in == MODE_TWO)
-                    next_state_module <= STATE_MODE_TWO_START;
-                else if (next_mode_in == MODE_THREE)
-                    next_state_module <= STATE_MODE_THREE;
+				if (next_mode_in == SETUP_COMP)
+                    next_state_module <= STATE_SETUP_COMP_START;
+                else if (next_mode_in == COMP)
+                    next_state_module <= STATE_COMP_START;
+                else if (next_mode_in == OUTPUT)
+                    next_state_module <= STATE_OUTPUT;
                 else
                     next_state_module <= STATE_START;    
             else
@@ -158,13 +153,13 @@ module firing_state_FSM2
         -- Consumption rate is size for each input FIFO.
         -- Production rate is 0 for the output FIFO.
         ***********************************************************************/
-        STATE_MODE_ONE_START:
+        STATE_SETUP_COMP_START:
         /* This is a hierarchical state --- the core computaitonal mode */
         begin 
-            next_state_module <= STATE_MODE_ONE_WAIT;
+            next_state_module <= STATE_SETUP_COMP_WAIT;
         end
 
-        STATE_MODE_ONE_WAIT:
+        STATE_SETUP_COMP_WAIT:
         begin
             /* Continue after nested FSM completes */
             if (done_out_child_mode1)
@@ -173,7 +168,7 @@ module firing_state_FSM2
             end
             else 
             begin
-                next_state_module <= STATE_MODE_ONE_WAIT;
+                next_state_module <= STATE_SETUP_COMP_WAIT;
             end
         end
 
@@ -184,12 +179,12 @@ module firing_state_FSM2
         This mode updates the internal state (accumulated inner product value)
         associated with the inner product.
         ***********************************************************************/
-        STATE_MODE_TWO_START:
+        STATE_COMP_START:
         begin
             /* Configure and execute nested FSM */
-            next_state_module <= STATE_MODE_TWO_WAIT;
+            next_state_module <= STATE_COMP_WAIT;
         end
-        STATE_MODE_TWO_WAIT:
+        STATE_COMP_WAIT:
         begin
             /* Continue after nested FSM completes */
             if (done_out_child_mode2)
@@ -198,7 +193,7 @@ module firing_state_FSM2
             end
             else 
             begin
-                next_state_module <= STATE_MODE_TWO_WAIT;
+                next_state_module <= STATE_COMP_WAIT;
             end
         end
 
@@ -207,7 +202,7 @@ module firing_state_FSM2
         -- Consumption rate is 0 for each input FIFO.
         -- Production rate is 1 for the output FIFO.
         ***********************************************************************/
-        STATE_MODE_THREE:
+        STATE_OUTPUT:
         /* This is a leaf-level state (no nested FSM) */
         begin 
             next_state_module <= STATE_END;
@@ -233,7 +228,7 @@ module firing_state_FSM2
             wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 0;
             start_in_child_mode2 <= 0;
-            done_out <= 0;
+			done_out <= 0;
 			data_out <= acc_out;
         end
 
@@ -242,23 +237,23 @@ module firing_state_FSM2
         -- Consumption rate is size for each input FIFO.
         -- Production rate is 0 for the output FIFO.
         ***********************************************************************/
-        STATE_MODE_ONE_START:
+        STATE_SETUP_COMP_START:
         /* This is a hierarchical state --- the core computaitonal mode */
         begin 
 			wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 1;
-            start_in_child_mode2 <= 0;
+			start_in_child_mode2 <= 0;
             done_out <= 0;
 			data_out <= acc_out;
         end
 
-        STATE_MODE_ONE_WAIT:
+        STATE_SETUP_COMP_WAIT:
         begin
             /* Continue after nested FSM completes */		
 			wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 0;
             start_in_child_mode2 <= 0;
-            done_out <= 0; 
+			done_out <= 0; 
 			data_out <= acc_out;
         end
 
@@ -269,21 +264,21 @@ module firing_state_FSM2
         This mode updates the internal state (accumulated inner product value)
         associated with the inner product.
         ***********************************************************************/
-        STATE_MODE_TWO_START:
+        STATE_COMP_START:
         begin
 			wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 0;
-            start_in_child_mode2 <= 1;
+			start_in_child_mode2 <= 1;
             done_out <= 0;
 			data_out <= acc_out;
             /* Configure and execute nested FSM */
         end
-        STATE_MODE_TWO_WAIT:
+        STATE_COMP_WAIT
         begin
             /* Continue after nested FSM completes */
 			wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 0;
-            start_in_child_mode2 <= 0;
+			start_in_child_mode2 <= 0;
             done_out <= 0;
 			data_out <= acc_out;
          end
@@ -293,12 +288,12 @@ module firing_state_FSM2
         -- Consumption rate is 0 for each input FIFO.
         -- Production rate is 1 for the output FIFO.
         ***********************************************************************/
-        STATE_MODE_THREE:
+        STATE_OUTPUT:
         /* This is a leaf-level state (no nested FSM) */
         begin 
 			wr_out_fifo1 <= 1;
             start_in_child_mode1 <= 0;
-            start_in_child_mode2 <= 0;
+			start_in_child_mode2 <= 0;
             done_out <= 0;
 			data_out <= acc_out;
         end
@@ -307,7 +302,7 @@ module firing_state_FSM2
         begin 
 			wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 0;
-            start_in_child_mode2 <= 0;
+			start_in_child_mode2 <= 0;
             done_out <= 1;
 			data_out <= acc_out;
         end
@@ -315,7 +310,7 @@ module firing_state_FSM2
         begin 
 			wr_out_fifo1 <= 0;
             start_in_child_mode1 <= 0;
-            start_in_child_mode2 <= 0;
+			start_in_child_mode2 <= 0;
             done_out <= 0;
 			data_out <= acc_out;
         end
