@@ -42,20 +42,18 @@ module stream_comp_enable
         #(parameter size = 3, buffer_size = 5, buffer_size_out = 1)(
         input rst,
         input [log2(buffer_size) - 1 : 0] pop_data,
-		input [log2(buffer_size) - 1 : 0] pop_length,
-        input [log2(buffer_size) - 1 : 0] pop_command,
         input [log2(buffer_size_out) - 1 : 0] free_space,
         input [1 : 0] mode,
         output reg enable);
   
     localparam SETUP_COMP = 2'b00, COMP = 2'b01, OUTPUT = 2'b10;
  
-    always @(mode, pop_data, pop_length, pop_command, free_space)
+    always @(mode, pop_data, free_space)
     begin 
         case (mode)
         SETUP_COMP:
         begin
-            if (pop_data >= size && pop_length >= size && pop_command >= size)
+            if (pop_data >= size)
                 enable <= 1;
             else
                 enable <= 0;
