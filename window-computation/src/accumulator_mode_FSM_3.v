@@ -39,8 +39,8 @@ module accumulator_mode_FSM_3
         input clk, rst,
         input start_in,
         input [width - 1 : 0] ram_out1,
-		input [width - 1 : 0] length_in [0 : 2],
-		input [1 : 0] command_in [0 : 2],
+		input [1 : 0] length_in,
+		input [1 : 0] command_in,
         output reg done_out,
         output reg rd_en,
         output [log2(size) - 1 : 0] rd_addr,
@@ -51,7 +51,7 @@ module accumulator_mode_FSM_3
     reg [1 : 0] state, next_state;
     reg [width - 1 : 0] next_acc;
     reg [log2(size) - 1 : 0] counter, next_counter;
-  	reg [width - 1 : 0] length, next_length;
+  	reg [1 : 0] length, next_length;
 	reg [1 : 0] command, next_command;
 
     always @(posedge clk or negedge rst)
@@ -61,8 +61,8 @@ module accumulator_mode_FSM_3
             state <= START;
             acc <= 0;
 	        counter <= 0;
-        	length <= length_in[0];
-			command <= command_in[0];
+        	length <= length_in;
+			command <= command_in;
 		end
         else
         begin 
