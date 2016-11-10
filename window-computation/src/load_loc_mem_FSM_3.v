@@ -38,7 +38,7 @@ module load_loc_mem_FSM_3
         input clk, rst,
         input start_in,
         input [width - 1 : 0] data_in_fifo,
-        output reg rd_in_data_fifo,
+        output reg rd_in_fifo1,
         output reg done_out,
         output reg wr_en,
         output reg [log2(size) - 1 : 0] wr_addr,
@@ -103,7 +103,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= 0;
             rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
 			data_out_one <= temp_reg_one;
@@ -114,7 +113,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter;
             rd_in_fifo1 <= 1;
-            rd_in_fifo2 <= 1;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
 			data_out_one <= temp_reg_one;
@@ -125,7 +123,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter;
             rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= data_in_fifo1;
 			data_out_one <= temp_reg_one;
@@ -136,7 +133,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter + 1;
             rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
 			data_out_one <= temp_reg_one;
@@ -148,7 +144,6 @@ module load_loc_mem_FSM_3
             done_out <= 1;
             next_counter <= 0;
             rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
 			data_out_one <= temp_reg_one;
@@ -159,7 +154,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter;
             rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
             wr_addr <= 0;
 			next_temp_reg_one <= temp_reg_one;
 			data_out_one <= temp_reg_one;
