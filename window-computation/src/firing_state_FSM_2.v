@@ -114,7 +114,7 @@ module firing_state_FSM2
 
     /* Instantiation of nested FSM for core compuation CFDF mode 2. */
     accumulator_mode_FSM_3 #(.size(size), .width(width)) accumulator(clk, rst, 
-            start_in_child_mode2, ram_out1, done_out_child_mode2, 
+            start_in_child_mode2, ram_out1, length, command, done_out_child_mode2, 
             rd_en, rd_addr, acc_out);
        
     always @(posedge clk or negedge rst)
@@ -274,7 +274,7 @@ module firing_state_FSM2
 			data_out <= acc_out;
             /* Configure and execute nested FSM */
         end
-        STATE_COMP_WAIT
+        STATE_COMP_WAIT:
         begin
             /* Continue after nested FSM completes */
 			wr_out_fifo1 <= 0;
