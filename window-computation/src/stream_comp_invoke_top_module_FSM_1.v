@@ -67,8 +67,8 @@ module stream_comp_invoke_top_module_1
         #(parameter size = 3, width = 10)(    
         input clk,rst,
         input [width - 1 : 0] data_FIFO,
-		input [width - 1 : 0] length [0 : 2],
-        input [1 : 0] command [0 : 2], 
+		input [width - 1 : 0] length,
+        input [1 : 0] command, 
         input invoke,
         input [1 : 0] next_mode_in,
         output rd_in_data_FIFO,
