@@ -113,7 +113,7 @@ module firing_state_FSM2
 
     /* Instantiation of nested FSM for core compuation CFDF mode 2. */
     accumulator_mode_FSM_3 #(.size(size), .width(width)) accumulator(clk, rst, 
-            start_in_child_mode2, ram_out1, done_out_child_mode2, 
+            start_in_child_mode2, ram_out1, length, command, done_out_child_mode2, 
             rd_en, rd_addr, acc_out);
        
     always @(posedge clk or negedge rst)
