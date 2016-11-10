@@ -44,8 +44,8 @@ module load_loc_mem_FSM_3
         output reg wr_en,
         output reg [log2(size) - 1 : 0] wr_addr,
         output reg [width - 1 : 0] data_out_one,
-        output reg [width - 1 : 0] data_out_two);
-        output reg [width - 1 : 0] data_out_three;
+        output reg [width - 1 : 0] data_out_two,
+        output reg [1 : 0] data_out_three);
 
     localparam START = 3'b000, STATE0_REN = 3'b001, STATE0_R = 3'b010, STATE1 = 3'b011, END = 3'b100;
   
@@ -147,7 +147,7 @@ module load_loc_mem_FSM_3
             rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= data_in_fifo;
-            next_temp_reg_two <= lenght_in_fifo;
+            next_temp_reg_two <= length_in_fifo;
             next_temp_reg_three <= command_in_fifo;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;

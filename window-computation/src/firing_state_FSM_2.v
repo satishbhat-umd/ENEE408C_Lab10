@@ -73,7 +73,8 @@ ENHANCEMENTS, OR MODIFICATIONS.
 module firing_state_FSM2
         #(parameter size = 3, width = 10)(
         input clk,rst,
-        input [width - 1 : 0] data_in_fifo,
+        input [width - 1 : 0] data_in_fifo, length_in_fifo,
+        input [1 : 0] command_in_fifo,
         input [width - 1 : 0] length [0 : 2],
         input [1 : 0] command [0 : 2], 
         input start_in,
@@ -97,7 +98,7 @@ module firing_state_FSM2
     wire [width - 1 : 0] acc_out;
     wire [width - 1 : 0] ram_out1, ram_out2;
     wire [log2(size) - 1 : 0] wr_addr, rd_addr;
-    wire [width - 1 : 0] data_out_one, data_out_two;
+    wire [width - 1 : 0] data_out_one, data_out_two, data_out_three;
     wire rd_en;
         
     single_port_ram #(.size(size), .width(width))
@@ -107,9 +108,9 @@ module firing_state_FSM2
     /* Instantiation of nested FSM for core compuation CFDF mode 1. */	    
     load_loc_mem_FSM_3 #(.size(size), .width(width))
             loc_mem(clk, rst, start_in_child_mode1, data_in_fifo, 
-            rd_in_data_fifo,
-            done_out_child_mode1, 
-            wr_en_ram, wr_addr, data_out_one);
+            length_in_fifo, command_in_fifo, rd_in_data_fifo,
+            read_in_length_fifo, rd_in_commend_fifo, done_out_child_mode1, 
+            wr_en_ram, wr_addr, data_out_one, data_out_two, data_out_three);
 
     /* Instantiation of nested FSM for core compuation CFDF mode 2. */
     accumulator_mode_FSM_3 #(.size(size), .width(width)) accumulator(clk, rst, 
