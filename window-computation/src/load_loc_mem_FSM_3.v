@@ -45,12 +45,13 @@ module load_loc_mem_FSM_3
         output reg [log2(size) - 1 : 0] wr_addr,
         output reg [width - 1 : 0] data_out_one,
         output reg [width - 1 : 0] data_out_two);
+        output reg [width - 1 : 0] data_out_three;
 
     localparam START = 3'b000, STATE0_REN = 3'b001, STATE0_R = 3'b010, STATE1 = 3'b011, END = 3'b100;
   
     reg [2 : 0] state, next_state;
-    reg [width - 1 : 0] temp_reg_one, temp_reg_two, next_temp_reg_one, 
-            next_temp_reg_two;
+    reg [width - 1 : 0] temp_reg_one, temp_reg_two, temp_reg_three, 
+            next_temp_reg_one, next_temp_reg_two, next_temp_reg_three;
     reg [log2(size) - 1 : 0] counter, next_counter;
   
     always @(posedge clk or negedge rst)
@@ -61,6 +62,7 @@ module load_loc_mem_FSM_3
             counter <= 0;
 	        temp_reg_one <= 0;
        	    temp_reg_two <= 0;
+            temp_reg_three <= 0;
         end
         else
         begin 
@@ -68,6 +70,7 @@ module load_loc_mem_FSM_3
             counter <= next_counter;
             temp_reg_one <= next_temp_reg_one;
             temp_reg_two <= next_temp_reg_two;
+            temp_reg_three <= next_temp_reg_three;
         end
     end
 
@@ -99,7 +102,7 @@ module load_loc_mem_FSM_3
         endcase
 
 	 
-	 always @(state, start_in, counter,data_in_fifo1,data_in_fifo2,temp_reg_one,temp_reg_two)
+	 always @(state, start_in, counter,data_in_fifo,length_in_fifo,command_in_fifo,temp_reg_one,temp_reg_two,temp_reg_three)
     begin 
         case (state)
         START:
@@ -107,79 +110,96 @@ module load_loc_mem_FSM_3
             wr_en <= 0;
             done_out <= 0;
             next_counter <= 0;
-            rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
+            rd_in_data_fifo <= 0;
+            rd_in_length_fifo <= 0;
+            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
+            next_temp_reg_three <= temp_reg_three;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
+            data_out_three <= temp_reg_three;
         end
         STATE0_REN:
         begin 			
 			wr_en <= 0;
             done_out <= 0;
             next_counter <= counter;
-            rd_in_fifo1 <= 1;
-            rd_in_fifo2 <= 1;
+            rd_in_data_fifo <= 1;
+            rd_in_length_fifo <= 1;
+            rd_in_command_fifo <= 1;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
+            next_temp_reg_three <= temp_reg_three;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
+            data_out_three <= temp_reg_three;
         end
         STATE0_R:
         begin 			
 			wr_en <= 0;
             done_out <= 0;
             next_counter <= counter;
-            rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
+            rd_in_data_fifo <= 0;
+            rd_in_length_fifo <= 0;
+            rd_in_command_fifo <= 0;
             wr_addr <= counter;
-			next_temp_reg_one <= data_in_fifo1;
-            next_temp_reg_two <= data_in_fifo2;
+			next_temp_reg_one <= data_in_fifo;
+            next_temp_reg_two <= lenght_in_fifo;
+            next_temp_reg_three <= command_in_fifo;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
+            data_out_three <= temp_reg_three;
         end
         STATE1:
         begin 			
 			wr_en <= 1;
             done_out <= 0;
             next_counter <= counter + 1;
-            rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
+            rd_in_data_fifo <= 0;
+            rd_in_length_fifo <= 0;
+            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
+            next_temp_reg_three <= temp_reg_three;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
-
+            data_out_three <= temp_reg_three;
         end
         END:
         begin 
 			wr_en <= 0;
             done_out <= 1;
             next_counter <= 0;
-            rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
+            rd_in_data_fifo <= 0;
+            rd_in_length_fifo <= 0;
+            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
+            next_temp_reg_three <= temp_reg_three;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
+            data_out_three <= temp_reg_three;
         end
 		  default:
 			begin
 		    wr_en <= 0;
             done_out <= 0;
             next_counter <= counter;
-            rd_in_fifo1 <= 0;
-            rd_in_fifo2 <= 0;
+            rd_in_data_fifo <= 0;
+            rd_in_length_fifo <= 0;
+            rd_in_command_fifo <= 0;
             wr_addr <= 0;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
+            next_temp_reg_three <= temp_reg_three;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
+            data_out_three <= temp_reg_three;
 			end
         endcase
     end
