@@ -1,0 +1,37 @@
+Lab Report
+
+From this lab we have learned about:
+  - The actor and graph model of design that is used for the computation of
+    three different things (sum, max, and min). This includes how the nodes
+    fire and how they wait for tokens as a result of previous
+    actors firing. 
+  - We found it very interesting how the logical flow of data only allows
+    some actors to fire at specific times, depending on the input data. 
+  - It was also interesting to see how with minimal changes, we could
+    implement the three different functionallities across the code. Once
+    we figured that out everything became much easier.
+
+Design
+  - The design was largely based of the design that was given to us in the
+    inner product example. we basicallly took that code and modified that 
+    so it would work with the histogram implementation that we become so 
+    familiar with over this past semester. 
+  - The only difference in the three implementations is a few lines of code
+    in the accumulator verilog module
+
+Testing
+  - We have 5 different testing modules that test five different 
+    functionalities of the code specified in the lad write up that we were
+    given.
+  - Testing reqires input tokens that specify the command, the length, 
+    and the data that is being input into the system
+
+Debugging
+  - Debugging the model was very easy since there
+    were no issues that we had other than linking the correct files to the 
+    files in the src directory. Once we figured that out it 
+    was very easy to debug everything.
+  - In addition, most of the dubugging required changing the syntax
+    of the different files. as long as we kept the correct names 
+    throughout we were sucessful
+

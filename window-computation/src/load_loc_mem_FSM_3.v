@@ -37,7 +37,7 @@ module load_loc_mem_FSM_3
         #(parameter size = 3, width = 10)(  
         input clk, rst,
         input start_in,
-        input [width - 1 : 0] data_in_fifo,
+        input [width - 1 : 0] data_in_fifo1,
         output reg rd_in_fifo1,
         output reg done_out,
         output reg wr_en,
@@ -94,7 +94,7 @@ module load_loc_mem_FSM_3
         endcase
 
 	 
-	 always @(state, start_in, counter,data_in_fifo1,data_in_fifo2,temp_reg_one)
+	 always @(state, start_in, counter,data_in_fifo1,temp_reg_one)
     begin 
         case (state)
         START:

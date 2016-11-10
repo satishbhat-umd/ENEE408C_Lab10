@@ -8,32 +8,74 @@ Z0 d/homes/twhite6/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-comput
 !i10d 8192
 !i10e 25
 !i10f 100
-vfifo
-I>;3ST=fnf8ZZnR2aDjYa22
-Z1 V`JN@9S9cnhjKRR_L]QIcM3
-Z2 d/homes/twhite6/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-computation/src
-Z3 w1478200533
-8fifo.v
-Ffifo.v
-L0 41
+vaccumulator_mode_FSM_3
+Z1 !s110 1478811771
+IFXQWVFCYmUWG7:S7Skfd51
+Z2 V`JN@9S9cnhjKRR_L]QIcM3
+Z3 d/homes/twhite6/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-computation/src
+w1478810747
+8accumulator_mode_FSM_3.v
+Faccumulator_mode_FSM_3.v
+L0 37
 Z4 OL;L;10.2c;57
 r1
 31
 Z5 o-work ../bin/stream-comp -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
-Z6 !s110 1478810486
+naccumulator_mode_@f@s@m_3
+!i10b 1
+!s100 d8nhYiBaNa0V^;VaI``CR3
+!s85 0
+!s108 1478811771.675773
+!s107 accumulator_mode_FSM_3.v|
+!s90 -work|../bin/stream-comp|accumulator_mode_FSM_3.v|
+!i111 0
+vfifo
+I>;3ST=fnf8ZZnR2aDjYa22
+R2
+R3
+Z6 w1478200533
+8fifo.v
+Ffifo.v
+L0 41
+R4
+r1
+31
+R5
+!s110 1478811770
 !i10b 1
 !s100 7NmP9kb[9G0QV9kZ4BR972
 !s85 0
-!s108 1478810486.075321
+!s108 1478811770.677938
 !s107 fifo.v|
 !s90 -work|../bin/stream-comp|fifo.v|
 !i111 0
-vload_loc_mem_FSM_3
-R6
-IAn>Q^a5C@VhhITo=c>nXL2
-R1
+vfiring_state_FSM2
+Io:Lh``?ai98P`VB2aLZfB3
 R2
-w1478810365
+R3
+w1478811169
+8firing_state_FSM_2.v
+Ffiring_state_FSM_2.v
+L0 71
+R4
+r1
+31
+R5
+nfiring_state_@f@s@m2
+Z7 !s110 1478811772
+!i10b 1
+!s100 _^2PV:OX?OW06giz@mREf2
+!s85 0
+!s108 1478811771.984675
+!s107 firing_state_FSM_2.v|
+!s90 -work|../bin/stream-comp|firing_state_FSM_2.v|
+!i111 0
+vload_loc_mem_FSM_3
+R1
+IUNS7iZabTfd1nNk`fT[[I1
+R2
+R3
+w1478811448
 8load_loc_mem_FSM_3.v
 Fload_loc_mem_FSM_3.v
 L0 36
@@ -43,18 +85,17 @@ r1
 R5
 nload_loc_mem_@f@s@m_3
 !i10b 1
-!s100 Ze>Z[IYZ@XWSl>MeeB:Fc0
+!s100 ZN9CI<kJKXkPKd=EfQL=R0
 !s85 0
-!s108 1478810486.792522
+!s108 1478811771.347176
 !s107 load_loc_mem_FSM_3.v|
 !s90 -work|../bin/stream-comp|load_loc_mem_FSM_3.v|
 !i111 0
 vsingle_port_ram
-R6
 II6XE[I]lgjhSKSi0MCL5G2
-R1
 R2
 R3
+R6
 8single_port_ram.v
 Fsingle_port_ram.v
 L0 54
@@ -62,20 +103,21 @@ R4
 r1
 31
 R5
+R1
 !i10b 1
 !s100 o[NV`a[7B5hjI3iPAi2AZ1
 !s85 0
-!s108 1478810486.433861
+!s108 1478811771.013931
 !s107 single_port_ram.v|
 !s90 -work|../bin/stream-comp|single_port_ram.v|
 !i111 0
 vstream_comp_enable
-!s110 1478810488
+R7
 !i10b 1
 !s100 blelmMZnC]oGJ]Q`>VI9:2
 IFF6k`X@5d?69oDd<4;@Dh0
-R1
 R2
+R3
 w1478807797
 8stream_comp_enable.v
 Fstream_comp_enable.v
@@ -84,7 +126,7 @@ R4
 r1
 !s85 0
 31
-!s108 1478810487.991225
+!s108 1478811772.597895
 !s107 stream_comp_enable.v|
 !s90 -work|../bin/stream-comp|stream_comp_enable.v|
 !i111 0
