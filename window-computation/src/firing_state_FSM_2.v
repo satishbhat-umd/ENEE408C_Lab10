@@ -273,7 +273,7 @@ module firing_state_FSM2
 			data_out <= acc_out;
             /* Configure and execute nested FSM */
         end
-        STATE_COMP_WAIT
+        STATE_COMP_WAIT:
         begin
             /* Continue after nested FSM completes */
 			wr_out_fifo1 <= 0;

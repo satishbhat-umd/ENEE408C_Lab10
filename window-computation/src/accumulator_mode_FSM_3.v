@@ -61,7 +61,7 @@ module accumulator_mode_FSM_3
             state <= START;
             acc <= 0;
 	        counter <= 0;
-        	length <= length_in[0]
+        	length <= length_in[0];
 			command <= command_in[0];
 		end
         else
