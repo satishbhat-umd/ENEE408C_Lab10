@@ -101,7 +101,7 @@ module load_loc_mem_FSM_3
         endcase
 
 	 
-	 always @(state, start_in, counter,data_in_fifo,length_in_fifo,command_in_fifo,temp_reg_one,temp_reg_two,temp_reg_three)
+	 always @(state, start_in, counter,data_in_fifo,temp_reg_one,temp_reg_two,temp_reg_three)
     begin 
         case (state)
         START:
@@ -110,8 +110,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= 0;
             rd_in_data_fifo <= 0;
-            rd_in_length_fifo <= 0;
-            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
@@ -126,8 +124,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter;
             rd_in_data_fifo <= 1;
-            rd_in_length_fifo <= 1;
-            rd_in_command_fifo <= 1;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
@@ -142,12 +138,8 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter;
             rd_in_data_fifo <= 0;
-            rd_in_length_fifo <= 0;
-            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= data_in_fifo;
-            next_temp_reg_two <= length_in_fifo;
-            next_temp_reg_three <= command_in_fifo;
 			data_out_one <= temp_reg_one;
             data_out_two <= temp_reg_two;
             data_out_three <= temp_reg_three;
@@ -158,8 +150,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter + 1;
             rd_in_data_fifo <= 0;
-            rd_in_length_fifo <= 0;
-            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
@@ -174,8 +164,6 @@ module load_loc_mem_FSM_3
             done_out <= 1;
             next_counter <= 0;
             rd_in_data_fifo <= 0;
-            rd_in_length_fifo <= 0;
-            rd_in_command_fifo <= 0;
             wr_addr <= counter;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;
@@ -190,8 +178,6 @@ module load_loc_mem_FSM_3
             done_out <= 0;
             next_counter <= counter;
             rd_in_data_fifo <= 0;
-            rd_in_length_fifo <= 0;
-            rd_in_command_fifo <= 0;
             wr_addr <= 0;
 			next_temp_reg_one <= temp_reg_one;
             next_temp_reg_two <= temp_reg_two;

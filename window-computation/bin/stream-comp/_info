@@ -20,20 +20,20 @@ Z4 OL;L;10.2c;57
 r1
 31
 Z5 o-work ../bin/stream-comp -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
-!s110 1478809320
+Z6 !s110 1478810486
 !i10b 1
 !s100 7NmP9kb[9G0QV9kZ4BR972
 !s85 0
-!s108 1478809320.911848
+!s108 1478810486.075321
 !s107 fifo.v|
 !s90 -work|../bin/stream-comp|fifo.v|
 !i111 0
 vload_loc_mem_FSM_3
-Z6 !s110 1478809321
-IG[aL2Lg7kV2n:bFn?FDHJ2
+R6
+IAn>Q^a5C@VhhITo=c>nXL2
 R1
 R2
-w1478809317
+w1478810365
 8load_loc_mem_FSM_3.v
 Fload_loc_mem_FSM_3.v
 L0 36
@@ -43,13 +43,14 @@ r1
 R5
 nload_loc_mem_@f@s@m_3
 !i10b 1
-!s100 XQNXM8WV`z_3Yl<zofGW62
+!s100 Ze>Z[IYZ@XWSl>MeeB:Fc0
 !s85 0
-!s108 1478809321.545677
+!s108 1478810486.792522
 !s107 load_loc_mem_FSM_3.v|
 !s90 -work|../bin/stream-comp|load_loc_mem_FSM_3.v|
 !i111 0
 vsingle_port_ram
+R6
 II6XE[I]lgjhSKSi0MCL5G2
 R1
 R2
@@ -61,16 +62,15 @@ R4
 r1
 31
 R5
-R6
 !i10b 1
 !s100 o[NV`a[7B5hjI3iPAi2AZ1
 !s85 0
-!s108 1478809321.229943
+!s108 1478810486.433861
 !s107 single_port_ram.v|
 !s90 -work|../bin/stream-comp|single_port_ram.v|
 !i111 0
 vstream_comp_enable
-!s110 1478809322
+!s110 1478810488
 !i10b 1
 !s100 blelmMZnC]oGJ]Q`>VI9:2
 IFF6k`X@5d?69oDd<4;@Dh0
@@ -84,7 +84,7 @@ R4
 r1
 !s85 0
 31
-!s108 1478809322.805813
+!s108 1478810487.991225
 !s107 stream_comp_enable.v|
 !s90 -work|../bin/stream-comp|stream_comp_enable.v|
 !i111 0
