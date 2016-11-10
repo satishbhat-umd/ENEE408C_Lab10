@@ -53,8 +53,8 @@ module tb_stream_comp_FSM();
     
     /* Input memories. */
     reg [width - 1 : 0] mem [0 : size - 1];
-	reg [1 : 0] command_in [0 : 2];
-	reg [width - 1 : 0] length_in [0 : 2];
+	reg [1 : 0] command_in 
+	reg [width - 1 : 0] length_in;
 
     wire [1:0] next_mode_out;  
     wire [width - 1 : 0] data_in_fifo1, data_out, data_out_fifo1;
@@ -141,11 +141,8 @@ module tb_stream_comp_FSM();
          * required here.
          */
 
-		for (i = 0; i < 3; i = i + 1)
-		begin
-			$fscanf(length_file, "%d\n", length_in[i]);
-			$fscanf(command_file, "%d\n", command_in[i]);
-		end
+		$fscanf(length_file, "%d\n", length_in);
+		$fscanf(command_file, "%d\n", command_in);
 
         $fdisplay(descr, "Setting up input FIFOs");
         for (i = 0; i < size; i = i + 1)

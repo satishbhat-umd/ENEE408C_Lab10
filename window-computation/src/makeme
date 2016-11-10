@@ -37,8 +37,8 @@ function makeone {
 makeone fifo
 makeone single_port_ram
 makeone load_loc_mem_FSM_3
-makeone stream_comp_comp_mode_FSM_3
-makeone stream_comp_firing_state_FSM_2
+makeone accumulator_mode_FSM_3
+makeone firing_state_FSM_2
 makeone stream_comp_invoke_top_module_1
 makeone stream_comp_enable
 
