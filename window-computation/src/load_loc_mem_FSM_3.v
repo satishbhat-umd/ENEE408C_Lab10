@@ -37,9 +37,8 @@ module load_loc_mem_FSM_3
         #(parameter size = 3, width = 10)(  
         input clk, rst,
         input start_in,
-        input [width - 1 : 0] data_in_fifo, length_in_fifo,
-        input [1 : 0] command_in_fifo,
-        output reg rd_in_data_fifo, rd_in_length_fifo, rd_in_command_fifo,
+        input [width - 1 : 0] data_in_fifo,
+        output reg rd_in_data_fifo,
         output reg done_out,
         output reg wr_en,
         output reg [log2(size) - 1 : 0] wr_addr,
