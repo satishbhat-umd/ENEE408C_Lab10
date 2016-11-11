@@ -126,7 +126,22 @@ module accumulator_mode_FSM_3
             STATE1:
 				begin 		
 				done_out <= 0;
-				next_acc <= acc + ram_out1;
+				case (command_in)
+				1:
+					begin
+					if (ram_out1 < acc)
+						next_acc <= ram_out1;
+					end
+				2:
+					begin
+					if (ram_out1 > acc)
+						next_acc <= ram_out1;
+					end
+				3:
+					begin
+					next_acc <= acc + ram_out1;
+					end
+				endcase
 				next_counter <= counter + 1;
 				rd_en <= 1; 
 				end

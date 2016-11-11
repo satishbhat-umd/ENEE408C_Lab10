@@ -36,47 +36,45 @@ ENHANCEMENTS, OR MODIFICATIONS.
 *******************************************************************************/
 
 `timescale 1ns/1ps
-module tb_inner_product_FSM();
+module tb_stream_comp_FSM();
 
     parameter buffer_size = 5, width = 10, buffer_size_out = 1;
-    parameter MODE_ONE = 2'b00, MODE_TWO = 2'b01, MODE_THREE = 2'b10;
+    parameter SETUP_COMP = 2'b00, COMP = 2'b01, OUTPUT = 2'b10;
 
-    /* Input vector size for the inner product. */
-    parameter size = 4;
+    /* Input vector size. */
+    parameter size = 5;
   
     reg clk, rst; 
     reg invoke;
     reg wr_en_input;
-    reg [width - 1:0] data_in_one, data_in_two;
-    reg [1 : 0]  next_mode_in;
+    reg [width - 1:0] data_in;
+    reg [1 : 0] next_mode_in;
     reg rd_en_fifo1;
     
-    /* Input memories for inner product. */
-    reg [width - 1 : 0] mem_one [0 : size - 1];
-    reg [width - 1 : 0] mem_two [0 : size - 1];
-  
+    /* Input memories. */
+    reg [width - 1 : 0] mem [0 : size - 1];
+	reg [1 : 0] command_in; 
+	reg [1 : 0] length_in;
+
     wire [1:0] next_mode_out;  
-    wire [width - 1 : 0] data_in_fifo1, data_in_fifo2, data_out, data_out_fifo1;
-    wire [log2(buffer_size) - 1:0] pop_in_fifo1, pop_in_fifo2;
+    wire [width - 1 : 0] data_in_fifo1, data_out, data_out_fifo1;
+    wire [log2(buffer_size) - 1:0] pop_in_fifo1;
     wire [log2(buffer_size_out) - 1 : 0] pop_out_fifo1;
-    wire [log2(buffer_size) - 1 : 0] free_space_fifo1, free_space_fifo2;
+    wire [log2(buffer_size) - 1 : 0] free_space_fifo1;
     wire [log2(buffer_size_out) - 1 : 0] free_space_out_fifo1;
     wire FC; 
  
     integer i, j, k;
-
+	integer length_file, command_file;
+	
     /***************************************************************************
     Instantiate the input and output FIFOs for the actor under test.
     ***************************************************************************/
 
     fifo #(buffer_size, width) 
             in_fifo1 
-            (clk, rst, wr_en_input, rd_in_fifo1, data_in_one, 
+            (clk, rst, wr_en_input, rd_in_fifo1, data_in, 
             pop_in_fifo1, free_space_fifo1, data_in_fifo1);
-
-    fifo #(buffer_size, width) in_fifo2 
-            (clk, rst, wr_en_input, rd_in_fifo2, data_in_two, 
-            pop_in_fifo2, free_space_fifo2, data_in_fifo2);
 
     fifo #(buffer_size_out, width) out_fifo1 
             (clk, rst, wr_out_fifo1, rd_en_fifo1, data_out, 
@@ -86,15 +84,15 @@ module tb_inner_product_FSM();
     Instantiate the enable and invoke modules for the actor under test.
     ***************************************************************************/
 
-    inner_product_invoke_top_module_1 #(.size(size), .width(width)) 
+    stream_comp_invoke_top_module_1 #(.size(size), .width(width)) 
             invoke_module(clk, rst, 
-            data_in_fifo1, data_in_fifo2, invoke, next_mode_in,
-            rd_in_fifo1, rd_in_fifo2, next_mode_out, FC, wr_out_fifo1, 
+            data_in_fifo1, length_in, command_in, invoke, next_mode_in,
+            rd_in_fifo1, next_mode_out, FC, wr_out_fifo1, 
             data_out);
   
-    innner_product_enable #(.size(size), .buffer_size(buffer_size), 
+    stream_comp_enable #(.size(size), .buffer_size(buffer_size), 
             .buffer_size_out(buffer_size_out)) enable_module(rst, pop_in_fifo1, 
-            pop_in_fifo2, free_space_out_fifo1, next_mode_in, enable);    
+            free_space_out_fifo1, next_mode_in, enable);    
 
     integer descr;
 
@@ -124,18 +122,18 @@ module tb_inner_product_FSM();
         /* Read text files and load the data into memory for input of inner 
         product actor
         */
-        $readmemh("mem_one.txt", mem_one);
-        $readmemh("mem_two.txt", mem_two);
+        $readmemh("data.txt", mem);
+		length_file = $fopen("length.txt", "r");
+		command_file = $fopen("command.txt", "r");
 
         #1;
         rst <= 0;
         wr_en_input <= 0;
-        data_in_one <= 0;
-        data_in_two <= 0;
+        data_in <= 0;
 		invoke <= 0;
-        next_mode_in <= MODE_ONE;		  
+        next_mode_in <= SETUP_COMP;		  
 		rd_en_fifo1 <= 0;
-        #2 rst <= 1;
+		#2 rst <= 1;
         #2; 
     
         /* Write data into the input FIFOs. The FIFO requires a write enable
@@ -143,22 +141,23 @@ module tb_inner_product_FSM();
          * required here.
          */
 
+		$fscanf(length_file, "%d\n", length_in);
+		$fscanf(command_file, "%d\n", command_in);
+
         $fdisplay(descr, "Setting up input FIFOs");
         for (i = 0; i < size; i = i + 1)
         begin 
                #2; 
-               data_in_one <= mem_one[i];
-               data_in_two <= mem_two[i];
+               data_in <= mem[i];
                #2;
                wr_en_input <= 1;
-               $fdisplay(descr, "input1[%d] = %d", i, data_in_one);
-               $fdisplay(descr, "input2[%d] = %d", i, data_in_two);
+               $fdisplay(descr, "input1[%d] = %d", i, data_in);
                #2;
                wr_en_input  <= 0;
         end
  
         #2;     /* ensure that data is stored into memory before continuing */
-        next_mode_in <= MODE_ONE;
+        next_mode_in <= SETUP_COMP;
         #2;
         if (enable)
         begin
@@ -174,7 +173,7 @@ module tb_inner_product_FSM();
         #2 invoke <= 0;
 
         /* Wait for mode 1 to complete */ 
-        wait (FC) #2 next_mode_in <= MODE_TWO;
+        wait (FC) #2 next_mode_in <= COMP;
         #2;
         if (enable)
         begin
@@ -190,7 +189,7 @@ module tb_inner_product_FSM();
         #2 invoke <= 0;
         
         /* Wait for mode 2 to complete */ 
-        wait(FC) #2 next_mode_in <= MODE_THREE;
+        wait(FC) #2 next_mode_in <= OUTPUT;
         #2;
         if (enable)
         begin
@@ -214,7 +213,7 @@ module tb_inner_product_FSM();
 		rd_en_fifo1 <= 0;  
                
         #2;
-		next_mode_in <= MODE_ONE;
+		next_mode_in <= SETUP_COMP;
 		
         /* Set up recording of results */
         $fdisplay(descr, "time = %d, FIFO[0] = %d", $time, out_fifo1.FIFO_RAM[0]);

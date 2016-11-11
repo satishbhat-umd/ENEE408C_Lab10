@@ -1,5 +1,13 @@
-# vsim -L ../../bin/inner-prod -do ./simulate-do -c -lic_plus -quiet -novopt tb_inner_product_FSM 
-# Refreshing /afs/glue.umd.edu/home/glue/s/b/sbhat12/home/enee408c_user/labs/lab10/verilog/lwdfv-inner-product/test/test02/work.tb_inner_product_FSM
+# vsim -L ../../bin/stream-comp -do ./simulate-do -c -lic_plus -quiet -novopt tb_stream_comp_FSM 
+# Refreshing /afs/glue.umd.edu/home/glue/s/b/sbhat12/home/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-computation/test/test02/work.tb_stream_comp_FSM
+# ** Warning: (vsim-PLI-3691) tb_stream_comp_FSM.v(144): Expected a system task, not a system function '$fscanf'.
+#         Region: /tb_stream_comp_FSM
+# ** Warning: (vsim-PLI-3691) tb_stream_comp_FSM.v(145): Expected a system task, not a system function '$fscanf'.
+#         Region: /tb_stream_comp_FSM
+# ** Warning: (vsim-3015) tb_stream_comp_FSM.v(91): [PCDPC] - Port size (10 or 10) does not match connection size (2) for port 'length'. The port definition is at: /homes/sbhat12/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-computation/src/stream_comp_invoke_top_module_FSM_1.v(70).
+#         Region: /tb_stream_comp_FSM/invoke_module
+# ** Warning: (vsim-3015) /homes/sbhat12/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-computation/src/stream_comp_invoke_top_module_FSM_1.v(95): [PCDPC] - Port size (2 or 2) does not match connection size (10) for port 'length'. The port definition is at: /homes/sbhat12/enee408c_user/labs/lab10/verilog/ENEE408C_Lab10/window-computation/src/firing_state_FSM_2.v(75).
+#         Region: /tb_stream_comp_FSM/invoke_module/FSM2
 # do ./simulate-do 
-# time =                  103, Result =   39
-         103, Result =   39
+# time =                  117, Result =    5
+         117, Result =    5

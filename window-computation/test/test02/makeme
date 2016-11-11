@@ -35,4 +35,4 @@ if ! [ -d work ]; then
     vmap work work
 fi
 
-vlog tb_inner_product_FSM.v
+vlog tb_stream_comp_FSM.v

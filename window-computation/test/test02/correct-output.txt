@@ -1,14 +1,11 @@
 Setting up input FIFOs
-input1[          0] =    2
-input2[          0] =    1
-input1[          1] =    7
-input2[          1] =    2
-input1[          2] =    1
-input2[          2] =    3
-input1[          3] =    5
-input2[          3] =    4
+input1[          0] =    1
+input1[          1] =    2
+input1[          2] =    3
+input1[          3] =    4
+input1[          4] =    5
 Executing firing for mode no. 1
 Executing firing for mode no. 2
 Executing firing for mode no. 2
-time =                  103, FIFO[0] =   39
-time =                  103, Result =   39
+time =                  117, FIFO[0] =    5
+time =                  117, Result =    5

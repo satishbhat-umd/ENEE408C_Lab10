@@ -53,8 +53,8 @@ module tb_stream_comp_FSM();
     
     /* Input memories. */
     reg [width - 1 : 0] mem [0 : size - 1];
-	reg [1 : 0] command_in 
-	reg [width - 1 : 0] length_in;
+	reg [1 : 0] command_in; 
+	reg [1 : 0] length_in;
 
     wire [1:0] next_mode_out;  
     wire [width - 1 : 0] data_in_fifo1, data_out, data_out_fifo1;
@@ -129,7 +129,7 @@ module tb_stream_comp_FSM();
         #1;
         rst <= 0;
         wr_en_input <= 0;
-        data_in_one <= 0;
+        data_in <= 0;
 		invoke <= 0;
         next_mode_in <= SETUP_COMP;		  
 		rd_en_fifo1 <= 0;

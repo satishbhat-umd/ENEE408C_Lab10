@@ -26,11 +26,11 @@
 # Script to run this test
 # Usage: runtest [no arguments]
 
-UXLIB=../../bin/inner-prod
+UXLIB=../../bin/stream-comp
 
 if [ -f out.txt ]; then
     rm -r out.txt
 fi
 
-vsim -c -L $UXLIB -lic_plus -quiet -novopt -do ./simulate-do tb_inner_product_FSM > transcript
+vsim -c -L $UXLIB -lic_plus -quiet -novopt -do ./simulate-do tb_stream_comp_FSM > transcript
 cat out.txt 2> err.txt
